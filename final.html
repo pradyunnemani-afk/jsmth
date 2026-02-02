@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine 💘</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffe6eb, #fff0f5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Comic Neue', cursive;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      position: relative;
+    }
+
+    .tease {
+      display: none;
+      font-size: 1.2rem;
+      color: #ff6f91;
+      margin-bottom: 10px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #ff4d6d;
+      margin-bottom: 30px;
+    }
+
+    .button-row {
+      display: inline-flex;
+      gap: 20px;
+    }
+
+    button {
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    #yesBtn {
+      background-color: #ff4d6d;
+      color: white;
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.1);
+    }
+
+    #noBtn {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    .fine-print {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    .celebration {
+      display: none;
+      position: fixed;
+      inset: 0;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .celebration h1 {
+      font-size: 4rem;
+      color: #ff4d6d;
+      text-align: center;
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 24px;
+      animation: floatUp 4s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" id="main">
+    <div class="tease" id="teaseText">okay okay relax 😭</div>
+
+    <h1>Dhriti, will you be my valentine?</h1>
+
+    <div class="button-row">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+
+    <div class="fine-print">just try to hit no</div>
+  </div>
+
+  <div class="celebration" id="celebration">
+    <h1>YAYAYAYAYAY I love you 💖</h1>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const main = document.getElementById("main");
+    const celebration = document.getElementById("celebration");
+    const teaseText = document.getElementById("teaseText");
+
+    let escaped = false;
+
+    const heartEmojis = ["💖", "💕", "💗", "❤️"];
+
+    // No button behavior
+    noBtn.addEventListener("mouseenter", () => {
+      if (!escaped) {
+        const rect = noBtn.getBoundingClientRect();
+        noBtn.style.position = "fixed";
+        noBtn.style.left = rect.left + "px";
+        noBtn.style.top = rect.top + "px";
+        escaped = true;
+
+        // Show tease message after 1.5 seconds with fade-in
+        setTimeout(() => {
+          teaseText.style.display = "block";
+          teaseText.style.opacity = "1";
+        }, 1500);
+      }
+
+      const padding = 40;
+      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+      const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    });
+
+    // Yes button behavior
+    yesBtn.addEventListener("click", () => {
+      main.style.display = "none";
+      celebration.style.display = "flex";
+
+      // Short delay before hearts start
+      setTimeout(() => {
+        setInterval(createHeart, 200);
+      }, 300);
+    });
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      // Random heart emoji
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.style.left = Math.random() * 100 + "vw";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }
+  </script>
+
+</body>
+</html>
